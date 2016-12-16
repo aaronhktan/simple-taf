@@ -256,7 +256,7 @@ html {
 	}
 	.translatedTAFText {
 		font-size: 0.9rem;
-		width: 100%;
+		width: 80%;
 		margin: auto;
 		text-align: center;
 		display: block; }
@@ -279,7 +279,7 @@ html {
 	}
 	.translatedTAFText {
 		font-size: 0.9rem;
-		width: 100%;
+		width: 85%;
 		margin: auto;
 		text-align: center;
 		display: block; }
