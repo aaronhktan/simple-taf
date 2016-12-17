@@ -72,8 +72,8 @@ function resetElements() {
 	document.getElementById("useLocationButton").style.display = "inline-block";
 	document.getElementById("returnButton").style.display = "none";
 	document.getElementById("tafDiv").parentNode.removeChild(document.getElementById("tafDiv"));
-	document.getElementById("translatedTAFDiv").parentNode.removeChild(document.getElementById("translatedTAFDiv"));
-	document.getElementById("TAFText").parentNode.removeChild(document.getElementById("TAFText"));
+	document.getElementById("translatedTAFTitleDiv").parentNode.removeChild(document.getElementById("translatedTAFTitleDiv"));
+	document.getElementById("translatedTAFTextDiv").parentNode.removeChild(document.getElementById("translatedTAFTextDiv"));
 	hideLoading();
 }
 
@@ -118,11 +118,11 @@ function fetchTAF(params) {
 	// Make some divs!
 	var tafDiv = document.createElement('div'); // This creates a new div to display the TAF
 	tafDiv.id = "tafDiv";
-	var translatedTAFDiv = document.createElement('div'); // This creates a new div to display the title
-	translatedTAFDiv.id = "translatedTAFDiv";
+	var translatedTAFTitleDiv = document.createElement('div'); // This creates a new div to display the title
+	translatedTAFTitleDiv.id = "translatedTAFTitleDiv";
 
-	var TAFText = document.createElement('div'); // Creates a div to hold the translated elements
-	TAFText.id = "TAFText"
+	var translatedTAFTextDiv = document.createElement('div'); // Creates a div to hold the translated elements
+	translatedTAFTextDiv.id = "translatedTAFTextDiv"
 
 	request(URL).then(function(result) { // Wait for promise to be fulfilled, and then do things with the response
 		taf = JSON.parse(result); // Parse JSON
@@ -144,7 +144,7 @@ function fetchTAF(params) {
 				translatedTAFText[i].className = "translatedTAFText";
 			}
 			
-			translatedTAFDiv.innerHTML = "Translated TAF:" + "<br><br>"; // Title for the translated TAF
+			translatedTAFTitleDiv.innerHTML = "Translated TAF:" + "<br><br>"; // Title for the translated TAF
 
 			translatedTAFText[0].innerHTML += "<b>City</b>: " + taf.Info.City + "<br>"; // Information about TAF Station in first span
 			translatedTAFText[0].innerHTML += "<b>Airport Name</b>: " + taf.Info.Name + "<br>";
@@ -163,11 +163,11 @@ function fetchTAF(params) {
 		addElement(tafDiv); // Add to the webpage!
 
 		// Add the new spans to the div and then add the div
-		addElement(translatedTAFDiv);
+		addElement(translatedTAFTitleDiv);
 		for (var i = 0; i <= taf.Forecast.length; i++) {
-			TAFText.appendChild(translatedTAFText[i]);
+			translatedTAFTextDiv.appendChild(translatedTAFText[i]);
 		}
-		addElement(TAFText);
+		addElement(translatedTAFTextDiv);
 
 		hideLoading(); // Hide the loading text
 	}).catch(function(reason) { // This means that the query was rejected for some reason

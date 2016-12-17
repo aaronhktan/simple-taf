@@ -254,12 +254,12 @@ html {
 		width: 75%; 
 		margin: auto; 
 		padding-bottom: 2em; } 
-	#translatedTAFDiv {
+	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 50%; 
 		text-align: center;
 		margin: auto; }
-	#TAFText{
+	#translatedTAFTextDiv{
 		width: 75%;
 		margin: auto;
 		padding-bottom: 2em;
@@ -271,7 +271,8 @@ html {
 		padding-right: 1em;
 		text-align: top;
 		vertical-align: top;
-		display: inline-block; }
+		display: inline-block; 
+		margin-bottom: 2em; }
 	}
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
@@ -280,12 +281,12 @@ html {
 		width: 80%; 
 		margin: auto; 
 		padding-bottom: 2em; } 
-	#translatedTAFDiv {
+	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 80%; 
 		text-align: center;
 		margin: auto; }
-	#TAFText{
+	#translatedTAFTextDiv{
 		margin: auto;
 		padding-bottom: 2em;
 	}
@@ -294,7 +295,8 @@ html {
 		width: 80%;
 		margin: auto;
 		text-align: center;
-		display: block; }
+		display: block; 
+		margin-bottom: 2em; }
 	}
 
 @media screen and (max-width: 42em) {
@@ -303,12 +305,12 @@ html {
 		width: 85%; 
 		margin: auto; 
 		padding-bottom: 2em; }
-	#translatedTAFDiv {
+	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 85%; 
 		text-align: center;
 		margin: auto; }
-	#TAFText{
+	#translatedTAFTextDiv{
 		margin: auto;
 		padding-bottom: 2em;
 	}
@@ -317,7 +319,8 @@ html {
 		width: 85%;
 		margin: auto;
 		text-align: center;
-		display: block; }
+		display: block; 
+		margin-bottom: 2em; }
 	}
 
 /* Folding Cube loading animation from http://tobiasahlin.com/spinkit/ */
