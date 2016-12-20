@@ -93,24 +93,28 @@ html {
 
 @media screen and (min-height: 30em) and (max-height: 38em) and (min-width: 42em) {
 	body { 
+		transition: margin-top 0.2s;
 		margin-top: 4em;
 	}
 }
 
 @media screen and (min-height: 30em) and (max-height: 38em) and (max-width: 42em) {
 	body {
+		transition: margin-top 0.2s;
 		margin-top: 3em;
 	}
 }
 
 @media screen and (max-height: 30em) and (min-width: 42em) {
 	body {
+		transition: margin-top 0.2s;
 		margin-top: 2em;
 	}
 }
 
 @media screen and (max-height: 30em) and (max-width: 42em) {
 	body {
+		transition: margin-top 0.2s;
 		margin-top: 2em;
 	}
 }
@@ -168,6 +172,7 @@ html {
 	border-radius: 0.3rem;
 	border-width: 0px;
 	outline: none;
+	transition: font-size 0.2s; 
 }
 
 .loading-text {
@@ -179,7 +184,8 @@ html {
 		padding: 0.75rem 1rem; }
 	#stationIdentifier {
 		font-size: 2.0rem;
-		padding: 0.4rem;}
+		padding: 0.4rem; 
+		transition: font-size 0.2s; }
 	.footer {
 		position: fixed;
 		text-align: right;
@@ -193,7 +199,8 @@ html {
 		font-size: 0.9rem; }
 	#stationIdentifier {
 		padding: 0.45rem  0.5rem;
-		font-size: 1.5rem; }
+		font-size: 1.5rem; 
+		transition: font-size 0.2s; }
 	.footer {
 		display: none; }
 	}
@@ -215,7 +222,8 @@ html {
 		margin-bottom: 0rem;
 		padding: 1rem;
 		width: 85%;
-		font-size: 1.5rem; }
+		font-size: 1.5rem; 
+		transition: font-size 0.2s; }
 	.footer {
 		display: none; }
 	}
@@ -228,21 +236,24 @@ html {
 
 @media screen and (min-width: 64em) {
 	.project-name {
-		font-size: 4rem; } 
+		font-size: 4rem; 
+		transition: font-size 0.2s; } 
 	.instruction {
 		font-size: 1.25rem; } 
 	}
 
 @media screen and (min-width: 42em) and (max-width: 64em) {
 	.project-name {
-		font-size: 3rem; } 
+		font-size: 3rem; 
+		transition: font-size 0.2s; } 
 	.instruction {
 		font-size: 1.15rem; } 
 	}
 
 @media screen and (max-width: 42em) {
 	.project-name {
-		font-size: 2rem; } 
+		font-size: 2rem; 
+		transition: font-size 0.2s; } 
 	.instruction {
 		font-size: 1rem; }
 	}
@@ -392,6 +403,7 @@ svg {
 	max-width: 100%;
 	height: 3em;
 	display: block;
+	transition: max-height 0.2s; 
 }
 
 /* Paper Plane: Container */
@@ -401,10 +413,12 @@ svg {
 		max-height: 1.5em;
 		margin: auto;
 		z-index: 3;
+		transition: max-height 0.2s; 
 	}
 	.plane {
 		width: 100%;
 		max-height: 1.5em;
+		transition: max-height 0.2s; 
 	}
 }
 
@@ -414,10 +428,12 @@ svg {
 		max-height: 3em;
 		margin: auto;
 		z-index: 3;
+		transition: max-height 0.2s; 
 	}
 	.plane {
 		width: 100%;
 		max-height: 3em;
+		transition: max-height 0.2s; 
 	}
 }
 
