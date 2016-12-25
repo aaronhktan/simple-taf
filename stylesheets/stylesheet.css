@@ -229,7 +229,9 @@ body {
 }
 
 .instruction {
-	margin-bottom: 0.5rem;
+	max-width: 85%;
+	padding-bottom: 1em;
+	margin: auto;
 	font-weight: normal;
 }
 
@@ -259,8 +261,7 @@ body {
 	#tafDiv {
 		font-size: 1.25rem; 
 		width: 75%; 
-		margin: auto; 
-		padding-bottom: 2em; } 
+		margin: auto; } 
 	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 50%; 
@@ -286,8 +287,7 @@ body {
 	#tafDiv{
 		font-size: 1.15rem; 
 		width: 80%; 
-		margin: auto; 
-		padding-bottom: 2em; } 
+		margin: auto; } 
 	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 80%; 
@@ -310,8 +310,7 @@ body {
 	#tafDiv{
 		font-size: 1rem; 
 		width: 85%; 
-		margin: auto; 
-		padding-bottom: 2em; }
+		margin: auto; }
 	#translatedTAFTitleDiv {
 		font-size: 1rem;
 		width: 85%; 

@@ -1,6 +1,6 @@
 console.log("JS initialized");
 
-var getTAFButton = document.getElementById("getTAFButton"), useLocationButton = document.getElementById("useLocationButton"), returnButton = document.getElementById("returnButton"), cancelled = false;
+var getTAFButton = document.getElementById("getTAFButton"), useLocationButton = document.getElementById("useLocationButton"), returnButton = document.getElementById("returnButton"), cancelled = false, failedOnce = false, failed = false;
 
 // Set up a listener for given station identifier button click
 getTAFButton.addEventListener('click', function(event) {
@@ -22,7 +22,6 @@ useLocationButton.addEventListener('click', function(event) {
 returnButton.addEventListener('click', function(event) {
 	cancelled = true;
 	resetElements();
-	hideLoading();
 })
 
 document.getElementById('stationIdentifier').onkeypress=function(e){
@@ -72,15 +71,31 @@ function resetElements() {
 	document.getElementById("useLocationButton").style.display = "inline-block";
 	document.getElementById("returnButton").style.display = "none";
 	document.getElementById("tafDiv").parentNode.removeChild(document.getElementById("tafDiv"));
-	document.getElementById("translatedTAFTitleDiv").parentNode.removeChild(document.getElementById("translatedTAFTitleDiv"));
-	document.getElementById("translatedTAFTextDiv").parentNode.removeChild(document.getElementById("translatedTAFTextDiv"));
+	if (!failed) {
+		document.getElementById("translatedTAFTitleDiv").parentNode.removeChild(document.getElementById("translatedTAFTitleDiv"));
+		document.getElementById("translatedTAFTextDiv").parentNode.removeChild(document.getElementById("translatedTAFTextDiv"));
+	} else {
+		failed = false;
+	}
+	if (failedOnce) {
+		failedOnce = false;
+	}
 	hideLoading();
 }
 
 // A function to hide the loading elements
 function hideLoading() {
 	document.getElementById("loading-text").style.display = "none"; // Hide the loading text
-	document.getElementById('loading-animation').style.display = "none"; //Hide the loading animation
+	document.getElementById("loading-animation").style.display = "none"; //Hide the loading animation
+}
+
+// A function to show failedOnce elements
+function showFailed(reason, element) {
+	console.log(reason);
+	failed = true;
+	hideLoading();
+	element.innerHTML = reason + "<br><br>";
+	addElement(element); // Add to the webpage!
 }
 
 // A function to add an element to the page
@@ -112,6 +127,7 @@ function getUserLocation() {
 function fetchTAF(params) {
 
 	var URL = "https://avwx.rest/api/taf/" + params + "?options=info,summary"; // This is the URL with options (extra info and TAF translation)
+	console.log(URL);
 
 	document.getElementById("loading-text").innerHTML = "Fetching TAF..." // Add loading text
 
@@ -129,6 +145,7 @@ function fetchTAF(params) {
 		if (taf["Raw-Report"] !== undefined) { // If there is a raw-report field in the JSON, then show that in the text
 
 			tafDiv.innerHTML += "<b>" + taf["Raw-Report"].split(" FM")[0] + "</b><br>" // Show the first part of the TAF
+			tafDiv.style.paddingBottom = "2em";
 			for (var i = 1; i < taf["Raw-Report"].split(" FM").length; i++) {
 				var tafLine = taf["Raw-Report"].split(" FM")[i];
 				if (tafLine.split(" RMK").length > 1) { // This means that it's the last line of the TAF since RMK exists in the string
@@ -156,24 +173,42 @@ function fetchTAF(params) {
 				}
 			}
 
+			addElement(tafDiv); // Add to the webpage!
+			// Add the new spans to the div and then add the div
+			addElement(translatedTAFTitleDiv);
+			for (var i = 0; i <= taf.Forecast.length; i++) {
+				translatedTAFTextDiv.appendChild(translatedTAFText[i]);
+			}
+			addElement(translatedTAFTextDiv);
+
+			hideLoading(); // Hide the loading text
+
+		} else if(taf.Error && failedOnce) {
+			console.log("Error fetching taf. The value of failedOnce is " + failedOnce);
+			showFailed(taf.Error, tafDiv);
 		} else { // If there isn't, tell the user that their query was invalid
-			tafDiv.innerHTML = "Your request was invalid!" + "<br><br>";
+			document.getElementById("loading-text").innerHTML = "Fetching address..."; // Add loading text
+			var addressURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + params.split(" ").join("+") + "&AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM";
+			console.log(addressURL);
+			request(addressURL).then(function(result) {
+				var geocode = JSON.parse(result);
+				try {
+					if (geocode.status != "OK") {
+						showFailed("No places found with that name!", tafDiv);
+					} else {
+						console.log(geocode.results[0].geometry.location.lat + ", " + geocode.results[0].geometry.location.lng);
+						var newParams = geocode.results[0].geometry.location.lat + "," + geocode.results[0].geometry.location.lng;
+						failedOnce = true;
+						fetchTAF(newParams);
+					}
+				} catch(error) {
+					showFailed("Uh oh! Something went wrong.<br><br> Error code:<br>" + error, tafDiv);
+				}
+			}).catch(function(reason) {
+				showFailed(reason, tafDiv);
+			});
 		}
-
-		addElement(tafDiv); // Add to the webpage!
-
-		// Add the new spans to the div and then add the div
-		addElement(translatedTAFTitleDiv);
-		for (var i = 0; i <= taf.Forecast.length; i++) {
-			translatedTAFTextDiv.appendChild(translatedTAFText[i]);
-		}
-		addElement(translatedTAFTextDiv);
-
-		hideLoading(); // Hide the loading text
 	}).catch(function(reason) { // This means that the query was rejected for some reason
-		console.log(reason); // Log the reason and tell the user
-		tafDiv.innerHTML = "Your request was invalid!" + "<br><br>";
-		addElement(tafDiv); // Add to the webpage!
-		hideLoading();
+		showFailed(reason, tafDiv); // Show that it failed
 	});
 }
