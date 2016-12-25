@@ -70,6 +70,7 @@ function resetElements() {
 	document.getElementById("getTAFButton").style.display = "inline-block";
 	document.getElementById("useLocationButton").style.display = "inline-block";
 	document.getElementById("returnButton").style.display = "none";
+	hideLoading();
 	document.getElementById("tafDiv").parentNode.removeChild(document.getElementById("tafDiv"));
 	if (!failed) {
 		document.getElementById("translatedTAFTitleDiv").parentNode.removeChild(document.getElementById("translatedTAFTitleDiv"));
@@ -80,7 +81,6 @@ function resetElements() {
 	if (failedOnce) {
 		failedOnce = false;
 	}
-	hideLoading();
 }
 
 // A function to hide the loading elements
@@ -182,20 +182,19 @@ function fetchTAF(params) {
 			addElement(translatedTAFTextDiv);
 
 			hideLoading(); // Hide the loading text
-
-		} else if(taf.Error && failedOnce) {
+		} else if(taf.Error && failedOnce) { // This means that even after having tried to use a lat long from string, fetching the TAF failed
 			console.log("Error fetching taf. The value of failedOnce is " + failedOnce);
 			showFailed(taf.Error, tafDiv);
-		} else { // If there isn't, tell the user that their query was invalid
+		} else { // This means that it's the first time that it's failed. Get the lat/long using Google's geocoding API and try again
 			document.getElementById("loading-text").innerHTML = "Fetching address..."; // Add loading text
 			var addressURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + params.split(" ").join("+") + "&AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM";
 			console.log(addressURL);
 			request(addressURL).then(function(result) {
 				var geocode = JSON.parse(result);
 				try {
-					if (geocode.status != "OK") {
+					if (geocode.status != "OK") { // This means that geocoding failed. :(
 						showFailed("No places found with that name!", tafDiv);
-					} else {
+					} else { // Geocoding succeeded! Get lat and long and fetch TAF again.
 						console.log(geocode.results[0].geometry.location.lat + ", " + geocode.results[0].geometry.location.lng);
 						var newParams = geocode.results[0].geometry.location.lat + "," + geocode.results[0].geometry.location.lng;
 						failedOnce = true;
