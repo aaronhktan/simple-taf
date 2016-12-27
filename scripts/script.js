@@ -127,7 +127,6 @@ function getUserLocation() {
 function fetchTAF(params) {
 
 	var URL = "https://avwx.rest/api/taf/" + params + "?options=info,summary"; // This is the URL with options (extra info and TAF translation)
-	console.log(URL);
 
 	document.getElementById("loading-text").innerHTML = "Fetching TAF..." // Add loading text
 
@@ -188,14 +187,12 @@ function fetchTAF(params) {
 		} else { // This means that it's the first time that it's failed. Get the lat/long using Google's geocoding API and try again
 			document.getElementById("loading-text").innerHTML = "Fetching address..."; // Add loading text
 			var addressURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + params.split(" ").join("+") + "&AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM";
-			console.log(addressURL);
 			request(addressURL).then(function(result) {
 				var geocode = JSON.parse(result);
 				try {
 					if (geocode.status != "OK") { // This means that geocoding failed. :(
 						showFailed("No places found with that name!", tafDiv);
 					} else { // Geocoding succeeded! Get lat and long and fetch TAF again.
-						console.log(geocode.results[0].geometry.location.lat + ", " + geocode.results[0].geometry.location.lng);
 						var newParams = geocode.results[0].geometry.location.lat + "," + geocode.results[0].geometry.location.lng;
 						failedOnce = true;
 						fetchTAF(newParams);
