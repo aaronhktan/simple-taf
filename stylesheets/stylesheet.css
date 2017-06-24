@@ -1,6 +1,3 @@
-* {
-	box-sizing: border-box; }
-
 /* This is for the background color */
 html {
 	background-color: #1D976C;
@@ -26,92 +23,13 @@ html {
 }
 
 /* Set top margin and animate when class changes*/
-body {
+#content {
 	transition: margin-top 0.2s; 
-}
-
-@media (min-height: 60em) {
-	body {
-		margin-top: 8em;
-	}
-	body.transition-down {
-		margin-top: 15em;
-	}
-	body.transition-up {
-		margin-top: 8em;
-	}
-}
-
-@media (min-height: 50em) and (max-height: 60em) {
-	body {
-		margin-top: 8em;
-	}
-	body.transition-down {
-		margin-top: 15em;
-	}
-	body.transition-up {
-		margin-top: 8em;
-	}
-}
-
-@media screen and (min-height: 45em) and (max-height: 50em) {
-	body {
-		margin-top: 4em;
-	}
-	body.transition-down {
-		margin-top: 8em;
-	}
-	body.transition-up {
-		margin-top: 4em;
-	}
-}
-
-@media screen and (min-height: 38em) and (max-height: 45em) and (min-width: 42em) {
-	body {
-		margin-top: 4em;
-	}
-	body.transition-down {
-		margin-top: 8em;
-	}
-	body.transition-up {
-		margin-top: 4em;
-	}
-}
-
-@media screen and (min-height: 38em) and (max-height: 45em) and (max-width: 42em) {
-	body {
-		margin-top: 4em;
-	}
-	body.transition-down {
-		margin-top: 8em;
-	}
-	body.transition-up {
-		margin-top: 4em;
-	}
-}
-
-@media screen and (min-height: 30em) and (max-height: 38em) and (min-width: 42em) {
-	body { 
-		margin-top: 4em;
-	}
-}
-
-@media screen and (min-height: 30em) and (max-height: 38em) and (max-width: 42em) {
-	body {
-		margin-top: 3em;
-	}
-}
-
-@media screen and (max-height: 30em) and (min-width: 42em) {
-	body {
-		margin-top: 2em;
-	}
-}
-
-@media screen and (max-height: 30em) and (max-width: 42em) {
-	body {
-		margin-top: 2em;
-	}
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 98vh;
 }
 
 /* Style the footer */
@@ -406,7 +324,6 @@ svg {
 	.plane-container {
 		max-width: 50%;
 		max-height: 1.5em;
-		margin: auto;
 		z-index: 3;
 	}
 	.plane {
@@ -419,7 +336,6 @@ svg {
 	.plane-container {
 		max-width: 50%;
 		max-height: 3em;
-		margin: auto;
 		z-index: 3;
 	}
 	.plane {

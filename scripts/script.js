@@ -52,7 +52,7 @@ function request(URL) {
 
 // A function to hide original elements
 function hideElements() {
-	document.getElementById("body").className = "transition-up";
+	document.getElementById("content").className = "transition-up";
 	document.getElementById("main-instruction").style.display = "none";
 	document.getElementById("stationIdentifier").style.display = "none";
 	document.getElementById("getTAFButton").style.display = "none";
@@ -64,7 +64,7 @@ function hideElements() {
 
 // A function to hide/destroy newly created elements and to show original elements
 function resetElements() {
-	document.getElementById("body").className = "transition-down";
+	document.getElementById("content").className = "transition-down";
 	document.getElementById("main-instruction").style.display = "block";
 	document.getElementById("stationIdentifier").style.display = "inline-block";
 	document.getElementById("getTAFButton").style.display = "inline-block";
