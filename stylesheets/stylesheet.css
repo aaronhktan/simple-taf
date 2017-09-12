@@ -1,47 +1,59 @@
 /* This is for the background color */
 html {
-	background-color: #1D976C;
+	background-color: #a2b9a1;
 	background-image: linear-gradient(120deg, #1D976C, #93F9B9);
+	min-height: 100%;
+	min-width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+body {
+	min-width: 80%;
+	min-height: 100%;
+}
+
+#content {
+	transition: margin-top 0.2s; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding-top: 1rem;
 	min-height: 100%;
 }
 
 .title {
 	margin-bottom: 2rem;
 	color: #fff;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	text-align: center;
 }
 
 .main-content {
 	padding: 0;
 	margin: 0 auto;
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 0.9rem;
 	line-height: 1.5;
 	color: #fff;
 	text-align: center;
 }
 
-/* Set top margin and animate when class changes*/
-#content {
-	transition: margin-top 0.2s; 
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	min-height: 98vh;
+.elements {
+	width: 100%;
 }
 
 /* Style the footer */
 .footer {
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	line-height: 1.5;
 	color: #fff;
 }
 
 .footer a {
-	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 12px;
 	line-height: 1.5;
 	color: #fff;
@@ -51,7 +63,6 @@ html {
 /* Style the buttons */
 .btn {
 	display: inline-block;
-	margin-bottom: 2rem;
 	color: rgba(255, 255, 255, 0.7);
 	background-color: rgba(255, 255, 255, 0.08);
 	border-color: rgba(255, 255, 255, 0.2);
@@ -70,6 +81,26 @@ html {
 	background-color: rgba(255, 255, 255, 0.2);
 	border-color: rgba(255, 255, 255, 0.3); }
 
+#location {
+	padding-top: 0.5rem;
+}
+
+#related {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #fff;
+	margin: 2rem;
+}
+
+#related a {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #fff;
+	text-decoration: underline;
+}
+
 /* Hide unnecessary elements*/
 #returnButton {
 	display: none;
@@ -79,13 +110,13 @@ html {
 	display: none;
 }
 
-#stationIdentifier{
-	margin-bottom: 2rem;
+#stationIdentifier {
+	font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight: normal;
 	border-radius: 0.3rem;
 	border-width: 0px;
 	outline: none;
-	transition: font-size 0.2s; 
+	transition: font-size 0.2s;
 }
 
 .loading-text {
@@ -94,8 +125,9 @@ html {
 
 @media screen and (min-width: 64em) {
 	.btn {
-		padding: 0.75rem 1rem; }
+		padding: 0.85rem 1rem; }
 	#stationIdentifier {
+		max-width: 30%;
 		font-size: 2.0rem;
 		padding: 0.4rem; 
 		transition: font-size 0.2s; }
@@ -115,7 +147,10 @@ html {
 		font-size: 1.5rem; 
 		transition: font-size 0.2s; }
 	.footer {
-		display: none; }
+		text-align: right;
+		position: fixed;
+		bottom: 1em; 
+		right: 1em; }
 	}
 
 @media screen and (max-width: 42em) {
@@ -134,7 +169,7 @@ html {
 	#stationIdentifier {
 		margin-bottom: 0rem;
 		padding: 1rem;
-		width: 85%;
+		width: 83%;
 		font-size: 1.5rem; 
 		transition: font-size 0.2s; }
 	.footer {
@@ -148,7 +183,7 @@ html {
 
 .instruction {
 	max-width: 85%;
-	padding-bottom: 1em;
+	padding-bottom: 1rem;
 	margin: auto;
 	font-weight: normal;
 }
@@ -325,6 +360,7 @@ svg {
 		max-width: 50%;
 		max-height: 1.5em;
 		z-index: 3;
+		margin: 0 auto;
 	}
 	.plane {
 		width: 100%;
