@@ -22,6 +22,7 @@ useLocationButton.addEventListener('click', function(event) {
 returnButton.addEventListener('click', function(event) {
 	cancelled = true;
 	resetElements();
+	window.scrollTo(0, 0);
 })
 
 document.getElementById('stationIdentifier').onkeypress=function(e){
