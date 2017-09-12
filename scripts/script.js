@@ -58,6 +58,7 @@ function hideElements() {
 	document.getElementById("stationIdentifier").style.display = "none";
 	document.getElementById("getTAFButton").style.display = "none";
 	document.getElementById("useLocationButton").style.display = "none";
+	document.getElementById("related").style.display = "none";
 	document.getElementById("loading-text").style.display = "block";
 	document.getElementById("loading-animation").style.display = "inline-block";
 	document.getElementById("returnButton").style.display = "inline-block"; // Show the return button
@@ -70,6 +71,7 @@ function resetElements() {
 	document.getElementById("stationIdentifier").style.display = "inline-block";
 	document.getElementById("getTAFButton").style.display = "inline-block";
 	document.getElementById("useLocationButton").style.display = "inline-block";
+	document.getElementById("related").style.display = "block";
 	document.getElementById("returnButton").style.display = "none";
 	hideLoading();
 	document.getElementById("tafDiv").parentNode.removeChild(document.getElementById("tafDiv"));
