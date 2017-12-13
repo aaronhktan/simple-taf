@@ -186,7 +186,7 @@ function fetchTAF(params) {
 			hideLoading(); // Hide the loading text
 		} else if(taf.Error && failedOnce) { // This means that even after having tried to use a lat long from string, fetching the TAF failed
 			console.log("Error fetching taf. The value of failedOnce is " + failedOnce);
-			showFailed(taf.Error, tafDiv);
+			showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + taf.Error, tafDiv);
 		} else { // This means that it's the first time that it's failed. Get the lat/long using Google's geocoding API and try again
 			document.getElementById("loading-text").innerHTML = "Fetching address..."; // Add loading text
 			var addressURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + params.split(" ").join("+") + "&key=AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM";
@@ -201,13 +201,34 @@ function fetchTAF(params) {
 						fetchTAF(newParams);
 					}
 				} catch(error) {
-					showFailed("Uh oh! Something went wrong.<br><br> Error code:<br>" + error, tafDiv);
+					showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + error, tafDiv);
 				}
 			}).catch(function(reason) {
-				showFailed(reason, tafDiv);
+				showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + reason, tafDiv);
 			});
 		}
 	}).catch(function(reason) { // This means that the query was rejected for some reason
-		showFailed(reason, tafDiv); // Show that it failed
+		if (!failedOnce) {
+			document.getElementById("loading-text").innerHTML = "Fetching address..."; // Add loading text
+			var addressURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + params.split(" ").join("+") + "&key=AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM";
+			request(addressURL).then(function(result) {
+				var geocode = JSON.parse(result);
+				try {
+					if (geocode.status != "OK") { // This means that geocoding failed. :(
+						showFailed("No places found with that name!", tafDiv);
+					} else { // Geocoding succeeded! Get lat and long and fetch TAF again.
+						var newParams = geocode.results[0].geometry.location.lat + "," + geocode.results[0].geometry.location.lng;
+						failedOnce = true;
+						fetchTAF(newParams);
+					}
+				} catch(error) {
+					showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + error, tafDiv);
+				}
+			}).catch(function(reason) {
+				showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + reason, tafDiv);
+			});
+		} else {
+			showFailed("Uh oh! Something went wrong.<br><br>Error code:<br>" + reason, tafDiv); // Show that it failed
+		}
 	});
 }
