@@ -154,12 +154,11 @@ function fetchTAF(params) {
 
   request(URL).then((result) => { // Wait for promise to be fulfilled, and then do things with the response
     taf = JSON.parse(result); // Parse JSON
-    if (taf['Raw-Report'] !== undefined) { // If there is a raw-report field in the JSON, then show that in the text
-
-      tafDiv.innerHTML += '<b>' + taf['Raw-Report'].split(' FM')[0] + '</b><br>' // Show the first part of the TAF
+    if (taf.raw !== undefined) { // If there is a raw-report field in the JSON, then show that in the text
+      tafDiv.innerHTML += '<b>' + taf.raw.split(' FM')[0] + '</b><br>' // Show the first part of the TAF
       tafDiv.style.paddingBottom = '2em';
-      for (var i = 1; i < taf['Raw-Report'].split(' FM').length; i++) {
-        var tafLine = taf['Raw-Report'].split(' FM')[i];
+      for (var i = 1; i < taf.raw.split(' FM').length; i++) {
+        var tafLine = taf.raw.split(' FM')[i];
         if (tafLine.split(' RMK').length > 1) { // This means that it's the last line of the TAF since RMK exists in the string
           tafDiv.innerHTML += '<b> FM' + tafLine.split(' RMK')[0] + '<br>RMK ' + tafLine.split(' RMK')[1] +'</b>'; // Show the raw TAF
         } else {
@@ -167,21 +166,26 @@ function fetchTAF(params) {
         }
       }
 
-      var translatedTafText = new Array(taf.Forecast.length);  // This creates spans to show the translated TAF
-      for (var i = 0; i <= taf.Forecast.length; i++) {
+      var translatedTafText = new Array(taf.forecast.length);  // This creates spans to show the translated TAF
+      for (var i = 0; i <= taf.forecast.length; i++) {
         translatedTafText[i] = document.createElement('span');
         translatedTafText[i].className = 'translatedTafText';
       }
       
       translatedTafTitleDiv.innerHTML = 'Translated TAF:' + '<br><br>'; // Title for the translated TAF
 
-      translatedTafText[0].innerHTML += '<b>City</b>: ' + taf.Info.City + '<br>'; // Information about TAF Station in first span
-      translatedTafText[0].innerHTML += '<b>Airport Name</b>: ' + taf.Info.Name + '<br>';
-      translatedTafText[0].innerHTML += '<b>Altitude</b>: ' + taf.Info.Elevation  + 'm'; 
+      translatedTafText[0].innerHTML += '<b>City</b>: ' + taf.info.city + '<br>'; // Information about TAF Station in first span
+      translatedTafText[0].innerHTML += '<b>Airport Name</b>: ' + taf.info.name + '<br>';
+      translatedTafText[0].innerHTML += '<b>Altitude</b>: ' + taf.info.elevation_ft  + 'm'; 
 
-      for (var key in taf.Forecast) { // Iterate through every element in the TAF Forecast section
-        if (taf.Forecast[key]['Summary'] != null) { // If there is a summary, then display the time and summary
-          translatedTafText[parseInt(key) + 1].innerHTML = 'From <b>' + taf.Forecast[key]['Start-Time'].substring(2, 4) + '00</b> to <b>' + taf.Forecast[key]['End-Time'].substring(2, 4) + '00</b>:<br>' + taf.Forecast[key]['Summary'] + '<br>';
+      for (var key in taf.forecast) { // Iterate through every element in the TAF Forecast section
+        if (taf.forecast[key]['summary'] != null) { // If there is a summary, then display the time and summary
+          let start_time = taf.forecast[key]['start_time']['dt'];
+          start_time = start_time.slice(start_time.indexOf('T') + 1, start_time.length);
+
+          let end_time = taf.forecast[key]['end_time']['dt'];
+          end_time = end_time.slice(end_time.indexOf('T') + 1, end_time.length);
+          translatedTafText[parseInt(key) + 1].innerHTML = 'From <b>' + start_time + '</b> to <b>' + end_time + '</b>:<br>' + taf.forecast[key]['summary'] + '<br>';
         }
       }
 
@@ -189,7 +193,7 @@ function fetchTAF(params) {
         addElement(tafDiv); // Add to the webpage!
         // Add the new spans to the div and then add the div
         addElement(translatedTafTitleDiv);
-        for (var i = 0; i <= taf.Forecast.length; i++) {
+        for (var i = 0; i <= taf.forecast.length; i++) {
           translatedTafTextDiv.appendChild(translatedTafText[i]);
         }
         addElement(translatedTafTextDiv);
