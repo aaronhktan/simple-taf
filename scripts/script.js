@@ -200,10 +200,16 @@ function fetchTAF(params) {
       }
       hideLoading(); // Hide the loading text
 
-    } else if (taf.Error && failedOnce) { // This means that even after having tried to use a lat long from string, fetching the TAF failed
+    } else if (failedOnce) { // This means that even after having tried to use a lat long from string, fetching the TAF failed
       console.log('Error fetching taf. The value of failedOnce is ' + failedOnce);
-      showFailed(taf.Error, tafDiv);
+      if (taf.error) {
+        showFailed(taf.error, tafDiv);
+      } else {
+        showFailed('Couldn\'t get TAF, did you spell the station correctly?', tafDiv);
+      }
     } else { // This means that it's the first time that it's failed. Get the lat/long using Google's geocoding API and try again
+      console.log(failedOnce);
+      failedOnce = true;
       document.getElementById('loadingText').innerHTML = 'Fetching address...'; // Add loading text
       var addressURL = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + params.split(' ').join('+') + '&key=AIzaSyCm8CuMVc0DXACkIkysE6oHu6eCiFtJ8uM';
       request(addressURL).then((result) => {
@@ -213,7 +219,6 @@ function fetchTAF(params) {
             showFailed('No places found with that name!', tafDiv);
           } else { // Geocoding succeeded! Get lat and long and fetch TAF again.
             var newParams = geocode.results[0].geometry.location.lat + ',' + geocode.results[0].geometry.location.lng;
-            failedOnce = true;
             fetchTAF(newParams);
           }
         } catch(error) {
